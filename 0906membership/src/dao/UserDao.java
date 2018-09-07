@@ -8,8 +8,12 @@ public interface UserDao {
 	//로그인 처리를 위한 메소드
 	//매개변수는 아이디와 비밀번호 -> 하나로 묶어서 받는다.
 	//처리결과는 아이디와 기타필요한 정보 -> 하나로 묶어서 리턴한다. 
-	
 	public TMember login(TMember tmember);
 	
-
+	//회원가입 처리를 위한 메소드
+	public boolean registerMember(TMember tmember); 
+	
+	//회원가입시 이메일 중복검사를 위한 메소
+	public boolean emailCheck(String email);
+	
 }

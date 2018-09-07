@@ -11,5 +11,12 @@ public interface UserService {
 	//로그인 처리 메소드
 	public TMember login(HttpServletRequest request);
 	
+	
+	//회원가입 처리 메소드
+	public boolean registerMember(HttpServletRequest request);
+	
+	
+	//이메일 중복 체크를 위한 메소드 
+	public boolean emailCheck(HttpServletRequest request);
 
 }

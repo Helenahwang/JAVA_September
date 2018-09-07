@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import service.UserService;
 import service.UserServiceImpl;
 import vo.TMember;
@@ -82,9 +84,44 @@ public class Usercontroller extends HttpServlet {
 			
 			break;
 
+		
+		
+		case "user/insert":
+			
+			boolean r = userService.registerMember(request);
+			if(r == true) {
+				//회원가입에 성공했을 때 처리
+				
+				session.setAttribute("msg", "회원 가입에 성공하셨습니다.");
+				response.sendRedirect("../"); //로그인 하러 메인으로 이동 
+				
+			}else {
+				//회원가입에 실패했을 때 처리
+				session.setAttribute("registermsg", "회원 가입에 실패하셨습니다.");
+				response.sendRedirect("register");
+			}
+			
+			break;
+			
+		
+			
+		case "user/emailcheck":
+			boolean result = userService.emailCheck(request);
+			
+			//Json으로 출력할 때는 리턴받은 데이터를 바로 저장하지 않고, JSON 객체로 변환해서 저장
+			JSONObject obj=new JSONObject();
+			obj.put("result", result); //키 와 값
+			
+			
+			//데이터 저장
+			request.setAttribute("result", obj); 
+			
+			//결과 페이지로 포워딩 - 리다이렉트로 가능
+			dispatcher = request.getRequestDispatcher("../emailcheck.jsp");
+			dispatcher.forward(request, response);
+			
+			
 		}
-		
-		
 	}
 
 
