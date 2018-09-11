@@ -9,6 +9,7 @@
 <body>
 	<a href="fileupload.file">파일업로드</a><br/>
 	<a href="input.file">데이터 입력</a><br/>
+	<a href="list.file">전체 데이터 출력하기</a><br/>
 
 </body>
 </html>

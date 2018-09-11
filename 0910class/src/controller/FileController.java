@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -15,6 +16,7 @@ import service.FileuploadService;
 import service.FileuploadServiceImpl;
 import service.PdsService;
 import service.PdsServiceImpl;
+import vo.Pds;
 
 
 @WebServlet("*.file") //인덱스에 있는 .file 인 것을 읽으려고 
@@ -100,12 +102,22 @@ public class FileController extends HttpServlet {
 		case "insert.file":
 			boolean result = pdsService.insertPds(request);
 			if(result == true) {
-				response.sendRedirect("index.jsp"); //디렉토리가 없는 메인 페이지로 
+				response.sendRedirect("./"); //디렉토리가 없는 메인 페이지로 index.jsp
 				
 			}else {
 				//실패한 경우는 데이터 삽입 페이지로 이동
 				response.sendRedirect("input.file");
 			}
+			break;
+			
+		case "list.file":
+			List<Pds> list = pdsService.listPds(request);
+			
+			request.setAttribute("list", list);
+			
+			dispatcher = request.getRequestDispatcher("views/list.jsp");
+			dispatcher.forward(request, response);
+			
 			break;
 		}
 	}
