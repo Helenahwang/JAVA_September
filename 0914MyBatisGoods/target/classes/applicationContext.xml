@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+		<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		id="dataSource">
+		<!-- 데이터베이스-드라이버-클래스의 이름은 데이터베이스의 종류가 바뀌면 수정해야 한다.-->
+		<property value="oracle.jdbc.driver.OracleDriver" 
+		name="driverClassName" />
+		<!-- 데이터베이스 접속 위치 데이터베이스 서버 위치 수정 -->
+		<property value="jdbc:oracle:thin:@192.168.10.101:1521:xe"
+			name="url" />
+		<property value="user24" name="username" />
+		<property value="user24" name="password" />
+		</bean>
+		
+		
+	<!-- MyBatis 환경 설정 정보를 저장하는 클래스 -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+	
+	<!-- 데이터베이스 연결 정보를 저장한 객체를 지정, 필수 요소이다.-->
+	<property name="dataSource" ref="dataSource" />
+	
+	<!-- MyBatis 환경 설정 정보를 저장한 파일의 경로를 지정하는 것으로, 생략 가능하다. -->
+	<property value="classpath:/mybatis/mybatis-config.xml" name="configLocation" />
+	
+	<!--XML Mapper 파일의 위치를 지정하는 것으로 annotation을 이용할 때는 생략 가능하다. -->
+	<property value="classpath:/mybatis/mappers/goodmapper.xml" name="mapperLocations" />
+	</bean>
+
+<!-- MyBatis에서 SQL을 실행해주는 클래스 annotation으로 작업하는 경우에는 생략 가능하다. -->
+<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession"
+	destroy-method="clearCache">
+	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+
+
+<!-- annotation 과 xml을 같이 사용할 수 있도록 해주는 설정 -->
+<context:annotation-config/>
+
+<!-- 클래스 이름 위에 annotation이 있으면 객체를 자동 생성해주는 설정 -->
+<context:component-scan base-package="com.mybatis"/>
+
+
+
+
+
+
+
+
+
+</beans>
+
+
+
+
+
+
+
