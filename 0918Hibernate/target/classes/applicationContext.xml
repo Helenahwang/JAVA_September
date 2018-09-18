@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+<!-- 클래스에서 스프링 어노테이션을 사용할 수 있도록 해주는 설정 -->
+<context:annotation-config/>
+
+<!-- 어노테이션이 설정된 클래스의 bean을 자동생성해주는 패키지 설정 -->
+<context:component-scan base-package="com.pk" />
+
+<!-- 트랜잭션 관련 어노테이션을 사용할 수 있도록 해주는 설정 -->
+<tx:annotation-driven/>
+
+	<!-- 데이터베이스 접속정보를 저장하는 bean -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@192.168.10.101:1521:xe" />
+		<property name="username" value="user24" />
+		<property name="password" value="user24" />
+	</bean>
+
+
+
+
+<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		
+		<!-- 데이터베이스 접속 정보 -->
+		<property name="dataSource" ref="dataSource" />
+		
+		<!-- 하이버네이트 설정 파일들의 위치를 지정 -->
+		<property name="mappingResources">
+			<list>
+				<value>hibernate/good.hbm.xml</value>
+			</list>
+		</property>
+		
+		<!-- 데이터베이스 종류 설정 -->
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+			</value>
+		</property>
+	</bean>
+
+
+<!-- 트랜잭션 적용을 위한 TransactionManager 객체 생성 -->
+<!-- 하이버네이트는 트랜잭션을 적용하지 않으면 예외를 발생시키다. -->
+
+	<bean id="transactionManager"
+	class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+
+</beans>

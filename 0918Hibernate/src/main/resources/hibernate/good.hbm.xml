@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+	
+<!-- 테이블과 객체 매핑 -->
+<hibernate-mapping package="com.pk.domain">
+	<!-- 테이블과 클래스를 연결 -->
+	<class name="Good" table="Goods">
+	
+	<!-- 컬럼 이름 쓸 때 오라클은 대문자 나머지는 소문자 -->
+	<!-- 기본키 연결 -->
+	<id name="code" column="CODE"/>
+	<!-- 나머지 컬럼 연결 -->
+	<property name="name" column="NAME" />
+	<property name="manufacture" column="MANUFACTURE" />
+	<property name="price" column="PRICE" />
+	
+	
+	
+	</class>
+</hibernate-mapping>
+
+
+	
