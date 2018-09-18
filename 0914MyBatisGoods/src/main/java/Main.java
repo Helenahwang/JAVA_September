@@ -15,6 +15,17 @@ public class Main {
 		GoodDao dao = context.getBean(GoodDao.class);
 		
 		
+		Good g=new Good();
+		g.setCode(100);
+		g.setName("사과");
+		g.setManufacture("대구");
+		g.setPrice(10000);
+		dao.insertGood(g);
+		
+		
+		
+		
+		
 		List<Good> list2=dao.list();
 		
 		for(Good tmp: list2)

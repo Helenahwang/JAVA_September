@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+
+<!-- 데이터베이스 접속 정보를 갖는 DataSource -->
+<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		id="dataSource">
+		<property value="oracle.jdbc.driver.OracleDriver" name="driverClassName" />
+		<property value="jdbc:oracle:thin:@192.168.10.101:1521:xe"
+			name="url" />
+		<property value="user24" name="username" />
+		<property value="user24" name="password" />
+	</bean>
+
+
+<!-- MyBatis 환경 설정 정보를 갖는 SqlSessionFactoryBean -->
+
+<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+	<property name="dataSource" ref="dataSource" />
+	<!-- 아래 2개의 속성은 생략될 수 있다. 잘못 설정된 경우 java.io.FileNotFoundException이 발생한다. -->
+	
+	<!--MyUserInterface 사용시 불필요  
+	<property value="classpath:/mybatis/mybatis-config.xml" name="configLocation" />
+	<property value="classpath:/mybatis/mappers/myuser.xml" name="mapperLocations" />
+	-->
+	</bean>
+
+	
+
+<!-- 매퍼 인터페이스를 이용하는 Dao 객체를 만들어주는 bean -->
+<bean id="myUserInterface" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<property name="mapperInterface" value="com.pk.mybatis.dao.MyUserInterface"/>
+	<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+
+
+
+
+
+<!-- XML 사용할 때 이용하는 SqlSessionTemplate-->
+ <!-- MyUserDao의 AutoWired에 쓰임 -->
+ 
+ <!-- MyUserInterface 사용시 불필요  
+<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession" destroy-method="clearCache">
+	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+</bean>
+-->
+
+
+
+<!-- 인스턴스를 자동으로 생성해주는 패키지 설정 -->
+<context:component-scan base-package="com.pk.mybatis"></context:component-scan>
+
+<context:annotation-config/>
+
+
+</beans>

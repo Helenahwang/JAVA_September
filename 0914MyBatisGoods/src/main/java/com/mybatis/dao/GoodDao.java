@@ -21,4 +21,10 @@ public class GoodDao {
 	public List<Good> list(){
 		return sqlSession.selectList("good.list1");
 	}
+	
+	//테이블에 데이터를 삽입하는 메소드
+	public int insertGood(Good good) {
+		return sqlSession.insert("good.insertgood",good);
+	}
+	
 }

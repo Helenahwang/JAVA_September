@@ -8,5 +8,8 @@
 		select code, name, manufacture, price from goods
 	</select>
 
+	<insert id="insertgood" parameterType="com.mybatis.domain.Good">
+	insert into goods(code, name, manufacture, price) values(#{code}, #{name}, #{manufacture}, #{price})
+	</insert>
 
 </mapper>
